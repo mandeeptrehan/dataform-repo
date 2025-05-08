@@ -1,0 +1,11 @@
+config {
+    type: "assertion",
+    tags: "hackathon"
+}
+
+select
+    transaction_uuid,
+    count(*)
+from ${ref("raw_transactions")}
+group by transaction_uuid
+having count(*) > 1
