@@ -1,0 +1,42 @@
+config {
+    type: "table",
+    tags: "hackathon",
+    schema: "PremierBank"
+}
+
+WITH ranked_current_balance as (
+select account_number, date, rank() over (partition by account_number order by date desc) ranked_date, balance from pso-chi-training.PremierBank.raw_transactions
+group by all)
+, current_balance as (select account_number, date as last_tx_date, balance as current_balance from ranked_current_balance where ranked_date = 1)
+select distinct
+  raw_transactions.account_number,
+  case
+    when bank_info.account_number is null then 0
+    else 1
+  end as client_match,
+  bank_info.age,
+  bank_info.experience,
+  bank_info.income,
+  bank_info.ZIP_code,
+  bank_info.family,
+  bank_info.education,
+  bank_info.mortgage,
+  bank_info.job,
+  bank_info.marital,
+  bank_info.housing,
+  cb.last_tx_date,
+  cb.current_balance,
+  count(raw_transactions.transaction_uuid) total_purchases,
+  sum(raw_transactions.withdrawal_amount) as total_withdrawals,
+  sum(raw_transactions.deposit_amount) as total_deposits,
+  case
+    when sum(raw_transactions.withdrawal_amount) > sum(raw_transactions.deposit_amount) then 'SPENDER'
+    when sum(raw_transactions.withdrawal_amount) < sum(raw_transactions.deposit_amount) then 'SAVER'
+    when sum(raw_transactions.withdrawal_amount) = sum(raw_transactions.deposit_amount) then 'BREAK-EVEN'
+  end as spender_type
+from ${ref("raw_transactions")} raw_transactions
+  join current_balance cb
+    on raw_transactions.account_number = cb.account_number
+  left join ${ref("bank_info")} bank_info
+    on raw_transactions.account_number = bank_info.account_number
+group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14
