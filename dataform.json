@@ -1,7 +1,7 @@
 {
   "defaultSchema": "default_dataset",
   "assertionSchema": "dataform_assertions",
-  "defaultLocation": "us-central1",
+  "defaultLocation": "US",
   "warehouse": "bigquery",
   "defaultDatabase": "pso-chi-training",
   "vars": {
