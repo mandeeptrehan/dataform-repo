@@ -1,6 +1,5 @@
 config {
-    type: "view",
-    materialized: "true",
+    type: "table",
     tags: ["process"],
     schema: "PremierBank",
     dependencies: "raw_transaction_dupe_check"
@@ -39,6 +38,6 @@ select distinct
 from ${ref("raw_transactions")} raw_transactions
   join current_balance cb
     on raw_transactions.account_number = cb.account_number
-  left join ${ref("bank_info")} bank_info
+  left join `pso-chi-training.PremierBank.bank_info` bank_info
     on raw_transactions.account_number = bank_info.account_number
 group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14
