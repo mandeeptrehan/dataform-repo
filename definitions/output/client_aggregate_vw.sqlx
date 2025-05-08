@@ -25,6 +25,11 @@ select distinct
   bank_info.job,
   bank_info.marital,
   bank_info.housing,
+  bank_info.Personal_Loan,
+  bank_info.Securities_Account,
+  bank_info.CD_Account,
+  bank_info.Online,
+  bank_info.Credit_card,
   cb.last_tx_date,
   cb.current_balance,
   count(raw_transactions.transaction_uuid) total_purchases,
@@ -40,4 +45,4 @@ from ${ref("raw_transactions")} raw_transactions
     on raw_transactions.account_number = cb.account_number
   left join `pso-chi-training.PremierBank.bank_info` bank_info
     on raw_transactions.account_number = bank_info.account_number
-group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14
+group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19
