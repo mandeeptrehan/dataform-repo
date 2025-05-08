@@ -1,7 +1,9 @@
 config {
     type: "view",
+    materialized: "true",
     tags: "hackathon",
-    schema: "PremierBank"
+    schema: "PremierBank",
+    dependencies: "raw_transaction_dupe_check"
 }
 
 WITH ranked_current_balance as (
