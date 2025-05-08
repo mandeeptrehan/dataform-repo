@@ -1,7 +1,7 @@
 config {
     type: "view",
     materialized: "true",
-    tags: "hackathon",
+    tags: "process",
     schema: "PremierBank",
     dependencies: "raw_transaction_dupe_check"
 }
