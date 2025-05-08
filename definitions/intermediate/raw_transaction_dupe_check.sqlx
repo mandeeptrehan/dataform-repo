@@ -1,6 +1,6 @@
 config {
     type: "assertion",
-    tags: "hackathon"
+    tags: ["process"]
 }
 
 select

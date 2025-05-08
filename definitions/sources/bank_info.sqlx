@@ -1,5 +1,10 @@
 config {
-    type: "declaration",
-    schema: "PremierBank",
-    name: "bank_info"
+    type: "operations",
+    tags: ["process"],
+    hasOutput: "true"
 }
+
+CREATE OR REPLACE TABLE 
+pso-chi-training.PremierBank.bank_info
+AS
+ SELECT *  FROM pso-chi-training.aef_landing_sample_zone.bankinfo
